@@ -27,7 +27,7 @@ public class MapLoader {
 
     public MapLoader(File mapFile, MapManager mapManager) {
         this.mapFile = mapFile;
-        this.teams = GameAPI.getInstance().getGame().isUsingTeams();
+        this.teams = GameAPI.getInstance().getRunningGame().isUsingTeams();
         this.cfg = YamlConfiguration.loadConfiguration(mapFile);
         this.mapManager = mapManager;
     }
@@ -44,16 +44,16 @@ public class MapLoader {
             return false;
         }
         if(this.teams) {
-            ArrayList<Teams> usedTeams = GameAPI.getInstance().getGame().getTeams();
+            ArrayList<Teams> usedTeams = GameAPI.getInstance().getRunningGame().getTeams();
             for (Teams team : usedTeams) {
                 if (this.mapManager.getTeamLocation(this.mapFile, team) == null) {
                     if(showErrors)
                         GameAPIBootstrap.sendConsoleMessage("Can't load map because it didn't has a spawn for every team in this game.");
                     return false;
-                } ;
+                }
             }
         }else {
-            int maxPlayers = GameAPI.getInstance().getGame().getMaxPlayers();
+            int maxPlayers = GameAPI.getInstance().getRunningGame().getMaxPlayers();
             if(this.mapManager.loadPlayerLocations(mapFile).size() < maxPlayers) {
                 if(showErrors)
                     GameAPIBootstrap.sendConsoleMessage("Can't load map because it didn't has a spawn for every player (" + maxPlayers + ") in this game.");
@@ -70,7 +70,7 @@ public class MapLoader {
             ArrayList<Location> playerSpawnLocations = null;
             if(this.teams) {
                 teamsLocations = Maps.newHashMap();
-                ArrayList<Teams> usedTeams = GameAPI.getInstance().getGame().getTeams();
+                ArrayList<Teams> usedTeams = GameAPI.getInstance().getRunningGame().getTeams();
                 for(Teams team : usedTeams) {
                     teamsLocations.put(team, this.mapManager.getTeamLocation(this.mapFile, team));
                 }

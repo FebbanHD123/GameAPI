@@ -29,9 +29,9 @@ public class APIListener implements Listener {
         event.setJoinMessage(null);
         if(GameAPI.getInstance().getCurrentGameState() instanceof AbstractLobbyState) {
             AbstractLobbyState lobbyState = (AbstractLobbyState) GameAPI.getInstance().getCurrentGameState();
-            event.setJoinMessage(GameAPI.getInstance().getGame().getPREFIX() + "§a" + player.getDisplayName() + " §7ist dem Spiel §abeigetreten§7.");
+            event.setJoinMessage(GameAPI.getInstance().getRunningGame().getPREFIX() + "§a" + player.getDisplayName() + " §7ist dem Spiel §abeigetreten§7.");
 
-            if(Bukkit.getOnlinePlayers().size() >= GameAPI.getInstance().getGame().getMinPlayers() && lobbyState.getLobbyCountdown().isIdle()) {
+            if(Bukkit.getOnlinePlayers().size() >= GameAPI.getInstance().getRunningGame().getMinPlayers() && lobbyState.getLobbyCountdown().isIdle()) {
                 lobbyState.getLobbyCountdown().stopIdle();
             }
 
@@ -46,23 +46,23 @@ public class APIListener implements Listener {
                 player.setMaxHealth(20);
             }, 3);
         }
-        GameAPI.getInstance().getGame().getTeamManager().setTeam(player, Teams.NO_TEAM);
+        GameAPI.getInstance().getRunningGame().getTeamManager().setTeam(player, Teams.NO_TEAM);
     }
 
     @EventHandler
     public void onLogin(PlayerLoginEvent event) {
-        if(GameAPI.getInstance().getGame() == null) {
+        if(GameAPI.getInstance().getRunningGame() == null) {
             event.disallow(PlayerLoginEvent.Result.ALLOWED, "§cDer Spiel wird noch Registriert!");
         }
     }
 
     @EventHandler
     public void onQuit(PlayerQuitEvent event) {
-        TeamManager teamManager = GameAPI.getInstance().getGame().getTeamManager();
+        TeamManager teamManager = GameAPI.getInstance().getRunningGame().getTeamManager();
         Player player = event.getPlayer();
         event.setQuitMessage(null);
 
-        String quitMessage = GameAPI.getInstance().getGame().getPREFIX() + "§c" + player.getDisplayName() + " §7hat das Spiel §cverlassen§7.";
+        String quitMessage = GameAPI.getInstance().getRunningGame().getPREFIX() + "§c" + player.getDisplayName() + " §7hat das Spiel §cverlassen§7.";
         if(GameAPI.getInstance().getCurrentGameState() instanceof AbstractLobbyState) {
             event.setQuitMessage(quitMessage);
         }else if(teamManager.getTeamOfPlayer(player) != Teams.SPECTATOR) {
@@ -70,7 +70,7 @@ public class APIListener implements Listener {
         }
         if(GameAPI.getInstance().getCurrentGameState() instanceof AbstractLobbyState) {
             AbstractLobbyState lobbyState = (AbstractLobbyState) GameAPI.getInstance().getCurrentGameState();
-            if(Bukkit.getOnlinePlayers().size() -1 < GameAPI.getInstance().getGame().getMinPlayers() && lobbyState.getLobbyCountdown().isRunning()) {
+            if(Bukkit.getOnlinePlayers().size() -1 < GameAPI.getInstance().getRunningGame().getMinPlayers() && lobbyState.getLobbyCountdown().isRunning()) {
                 lobbyState.getLobbyCountdown().startIdle();
             }
         }

@@ -24,7 +24,7 @@ public class GameAPI {
 
     private GameState currentGameState;
 
-    private RunningGame game;
+    private RunningGame runningGame;
 
     private GameAPI() {}
 
@@ -40,9 +40,9 @@ public class GameAPI {
 
     @SneakyThrows
     public void registerGame(GameInitializer gameInitializer) {
-        if(this.game == null) {
-            this.game = new RunningGame(this);
-            this.game.initGame(gameInitializer);
+        if(this.runningGame == null) {
+            this.runningGame = new RunningGame(this);
+            this.runningGame.initGame(gameInitializer);
         }else {
             throw new AlreadyRegisteredGameException();
         }

@@ -37,7 +37,7 @@ public class LobbyCountdown extends Countdown {
         this.idle = true;
         this.idleTaskID = Bukkit.getScheduler().scheduleSyncRepeatingTask(GameAPIBootstrap.getInstance(), () -> {
 
-            String message = "§7Es werden noch §c" + (GameAPI.getInstance().getGame().getMinPlayers() - Bukkit.getOnlinePlayers().size()) + " §7Spiele benötigt " + points;
+            String message = "§7Es werden noch §c" + (GameAPI.getInstance().getRunningGame().getMinPlayers() - Bukkit.getOnlinePlayers().size()) + " §7Spiele benötigt " + points;
             for(Player player : Bukkit.getOnlinePlayers())
                 ActionbarUtil.sendActionBar(player, message);
 

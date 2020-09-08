@@ -24,7 +24,7 @@ public abstract  class AbstractLobbyState extends CountdownListener implements G
 
     @Override
     public void onEnable() {
-        this.game = GameAPI.getInstance().getGame();
+        this.game = GameAPI.getInstance().getRunningGame();
 
         this.lobbyCountdown = new LobbyCountdown(this, 60, 60, 45, 30, 15, 10, 5, 4, 3, 2, 1);
 
@@ -48,11 +48,9 @@ public abstract  class AbstractLobbyState extends CountdownListener implements G
         else
             message = "§7Das Spiel startet in §a" + time + " §7Sekunde.";
 
-        Bukkit.broadcastMessage(GameAPI.getInstance().getGame().getPREFIX() + message);
+        Bukkit.broadcastMessage(GameAPI.getInstance().getRunningGame().getPREFIX() + message);
 
-        Bukkit.getOnlinePlayers().forEach(player -> {
-            player.playSound(player.getLocation(), Sound.NOTE_BASS, 2, 1);
-        });
+        Bukkit.getOnlinePlayers().forEach(player -> player.playSound(player.getLocation(), Sound.NOTE_BASS, 2, 1));
     }
 
     @Override
