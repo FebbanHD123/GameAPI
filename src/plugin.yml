@@ -1,0 +1,7 @@
+name: GameAPI
+version: 1.0
+main: de.febanhd.gameapi.backend.GameAPIBootstrap
+author: FebanHD
+
+commands:
+  gameapi:
